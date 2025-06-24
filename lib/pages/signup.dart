@@ -1,7 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isPasswordHidden = true;
+  bool isLoading = false;
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
+
+  Future<void> handleSignup() async {
+    String username = usernameController.text.trim();
+    String phone = phoneController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text;
+
+    if (username.isEmpty ||
+        phone.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty) {
+      showError("Semua field harus diisi!");
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:8000/api/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': username,
+          'phone': phone,
+          'email': email,
+          'password': password,
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Navigator.pushReplacementNamed(context, '/signin');
+      } else {
+        showError(data['message'] ?? 'Gagal mendaftar.');
+      }
+    } catch (e) {
+      showError("Terjadi kesalahan koneksi.");
+    }
+
+    setState(() => isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,126 +89,60 @@ class SignupPage extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Color(0xFF504F5E)),
             ),
             const SizedBox(height: 48),
-                        
-            // Username label
-            const Text(
-              'Username',
-              style: TextStyle(
-                fontSize: 16, 
-                fontWeight: FontWeight.w600, 
-                color: Color(0xFF2B2937)),
-            ),
-            const SizedBox(height: 8),
 
-            /// Username Input
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFDDD8FB),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image.asset(
-                      'assets/icon/user.png',
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  hintText: 'Your Username',
-                  border: InputBorder.none,
-                ),
-                ),
+            _buildLabel("Username"),
+            _buildInput(
+              usernameController,
+              'Your Username',
+              'assets/icon/user.png',
             ),
+
             const SizedBox(height: 24),
-
-            /// Email Label
-            const Text(
-              'Email Address',
-              style: TextStyle(
-                fontSize: 16, 
-                fontWeight: FontWeight.w600, 
-                color: Color(0xFF2B2937)),
+            _buildLabel("Phone Number"),
+            _buildInput(
+              phoneController,
+              'Your Phone Number',
+              'assets/icon/phone.png',
+              type: TextInputType.phone,
             ),
-            const SizedBox(height: 8),
 
-            /// Email Input
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFDDD8FB),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image.asset(
-                      'assets/icon/email.png',
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  hintText: 'Your Email Address',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
             const SizedBox(height: 24),
-
-            /// Password Label
-            const Text(
-              'Password',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            _buildLabel("Email Address"),
+            _buildInput(
+              emailController,
+              'Your Email Address',
+              'assets/icon/email.png',
             ),
-            const SizedBox(height: 8),
 
-            /// Password Input
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF1DA),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image.asset(
-                      'assets/icon/lock.png',
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  hintText: 'Your Password',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
+            const SizedBox(height: 24),
+            _buildLabel("Password"),
+            _buildPasswordInput(),
+
             const SizedBox(height: 40),
 
-            /// Sign In Button
             SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: isLoading ? null : handleSignup,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFF8700),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Sign In',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child:
+                    isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                          'Sign Up',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
               ),
             ),
 
             const Spacer(),
 
-            /// Sign Up Text
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -154,9 +151,8 @@ class SignupPage extends StatelessWidget {
                   style: TextStyle(color: Color(0xFF4E4E4E)),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/signin');
-                  },
+                  onTap:
+                      () => Navigator.pushReplacementNamed(context, '/signin'),
                   child: const Text(
                     'Sign in',
                     style: TextStyle(
@@ -168,6 +164,73 @@ class SignupPage extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF2B2937),
+      ),
+    );
+  }
+
+  Widget _buildInput(
+    TextEditingController controller,
+    String hint,
+    String iconPath, {
+    TextInputType type = TextInputType.text,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFDDD8FB),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: TextField(
+        controller: controller,
+        keyboardType: type,
+        decoration: InputDecoration(
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Image.asset(iconPath, width: 24, height: 24),
+          ),
+          hintText: hint,
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordInput() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF1DA),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: TextField(
+        controller: passwordController,
+        obscureText: isPasswordHidden,
+        decoration: InputDecoration(
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Image.asset('assets/icon/lock.png', width: 24, height: 24),
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              setState(() => isPasswordHidden = !isPasswordHidden);
+            },
+          ),
+          hintText: 'Your Password',
+          border: InputBorder.none,
         ),
       ),
     );

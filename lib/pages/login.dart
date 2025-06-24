@@ -1,7 +1,54 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+  bool showPassword = false;
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  void login() {
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      showError('Email dan password tidak boleh kosong.');
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    // Simulasi proses login
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+
+      // Jika login berhasil, arahkan ke halaman berikutnya
+      Navigator.pushReplacementNamed(context, '/home');
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +69,24 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Sign In to Countinue',
+              'Sign In to Continue',
               style: TextStyle(fontSize: 16, color: Color(0xFF504F5E)),
             ),
             const SizedBox(height: 48),
 
-            /// Email Label
             const Text(
               'Email Address',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-
-            /// Email Input
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFDDD8FB),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -57,21 +103,19 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            /// Password Label
             const Text(
               'Password',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-
-            /// Password Input
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFFCECDC),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextField(
-                obscureText: true,
+                controller: passwordController,
+                obscureText: !showPassword,
                 decoration: InputDecoration(
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -81,6 +125,17 @@ class LoginPage extends StatelessWidget {
                       height: 24,
                     ),
                   ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      showPassword ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                  ),
                   hintText: 'Your Password',
                   border: InputBorder.none,
                 ),
@@ -88,28 +143,30 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 40),
 
-            /// Sign In Button
             SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: isLoading ? null : login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFE7F00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Sign In',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+                child: isLoading
+                    ? const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : const Text(
+                        'Sign In',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
               ),
             ),
 
             const Spacer(),
 
-            /// Sign Up Text
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
