@@ -4,6 +4,7 @@ class MenuCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String category;
+  final String nameresto;
   final String price;
 
   const MenuCard({
@@ -11,6 +12,7 @@ class MenuCard extends StatelessWidget {
     required this.title,
     required this.imageUrl,
     required this.category,
+    required this.nameresto,
     required this.price,
   });
 
@@ -24,14 +26,29 @@ class MenuCard extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 16, color: Color(0xFF4E2A00), fontWeight: FontWeight.w600)),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF4E2A00),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             Text(
               category,
               style: const TextStyle(fontSize: 14, color: Color(0xFF999999)),
             ),
             Text(
+              nameresto,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF754414)),
+            ),
+            Text(
               price,
-              style: const TextStyle(fontSize: 14, color: Color(0xFFBF360C), fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Color(0xFFBF360C),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fiksi/pages/menu.dart';
 import 'package:flutter_fiksi/widgets/widgets.dart';
+import 'package:flutter_fiksi/pages/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,32 +45,93 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
-  final List<Widget> pages = const [HomeWidget(), Menu()];
+
+  final List<Widget> pages = const [
+    HomeWidget(),
+    Menu(),
+    Placeholder(),
+    ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF4E2A00),
-        unselectedItemColor: const Color(0xFF999999),
-        backgroundColor: Colors.yellow,
-        currentIndex: pageIndex,
-        onTap: (index) {
-          // Handle navigation logic here
-          setState(() {
-            pageIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: const Color(0xFFFE7F00),
+        elevation: 6,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.restaurant, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        color: const Color(0xFFFE7F00),
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () => setState(() => pageIndex = 0),
+                      icon: Icon(
+                        Icons.home,
+                        color:
+                            pageIndex == 0
+                                ? const Color(0xFF4E2A00)
+                                : const Color(0xFF999999),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => setState(() => pageIndex = 1),
+                      icon: Icon(
+                        Icons.menu_book,
+                        color:
+                            pageIndex == 1
+                                ? const Color(0xFF4E2A00)
+                                : const Color(0xFF999999),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(width: 60),
+
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () => setState(() => pageIndex = 2),
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        color:
+                            pageIndex == 2
+                                ? const Color(0xFF4E2A00)
+                                : const Color(0xFF999999),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => setState(() => pageIndex = 3),
+                      icon: Icon(
+                        Icons.person,
+                        color:
+                            pageIndex == 3
+                                ? const Color(0xFF4E2A00)
+                                : const Color(0xFF999999),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+        ),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -78,7 +140,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Colors.orange,
                     child: ClipOval(
                       child: Image.asset(
-                        'assets/icon/profile.png', // Ganti dengan path gambar profil yang sesuai
+                        'assets/icon/profile.png',
                         width: 54,
                         height: 54,
                         fit: BoxFit.cover,
@@ -116,7 +177,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
               pages[pageIndex],
             ],
@@ -132,80 +192,74 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Promo',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF3F2200),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Promo',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF3F2200),
+          ),
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 280.0,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: const [
+              PromoCard(imageUrl: 'assets/image/promo.png'),
+              PromoCard(imageUrl: 'assets/image/promo.png'),
+              PromoCard(imageUrl: 'assets/image/promo.png'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+        const Text(
+          'Menu',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF754414),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: const [
+            MenuCard(
+              imageUrl: 'assets/image/menu.png',
+              title: 'Menu 1',
+              category: 'main course',
+              nameresto: 'Mang Engking',
+              price: 'Rp10.000',
             ),
-            SizedBox(height: 16),
-            // Promo Card
-            SizedBox(
-              height: 280.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  PromoCard(imageUrl: 'assets/image/promo.png'),
-                  PromoCard(imageUrl: 'assets/image/promo.png'),
-                  PromoCard(imageUrl: 'assets/image/promo.png'),
-                ],
-              ),
+            MenuCard(
+              imageUrl: 'assets/image/menu.png',
+              title: 'Menu 2',
+              category: 'dessert',
+              nameresto: 'Mang Engking',
+              price: 'Rp12.000',
             ),
-
-            const SizedBox(height: 24),
-
-            const Text(
-              'Menu',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF754414),
-              ),
+            MenuCard(
+              imageUrl: 'assets/image/menu.png',
+              nameresto: 'Mang Engking',
+              title: 'Menu 3',
+              category: 'main course',
+              price: 'Rp15.000',
             ),
-
-            const SizedBox(height: 16),
-
-            // Menu Cards
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                MenuCard(
-                  imageUrl: 'assets/image/menu.png',
-                  title: 'Menu 1',
-                  category: 'main course',
-                  price: 'Rp10.000',
-                ),
-                MenuCard(
-                  imageUrl: 'assets/image/menu.png',
-                  title: 'Menu 2',
-                  category: 'dessert',
-                  price: 'Rp12.000',
-                ),
-                MenuCard(
-                  imageUrl: 'assets/image/menu.png',
-                  title: 'Menu 3',
-                  category: 'main course',
-                  price: 'Rp15.000',
-                ),
-                MenuCard(
-                  imageUrl: 'assets/image/menu.png',
-                  title: 'Menu 4',
-                  category: 'beverage',
-                  price: 'Rp8.000',
-                ),
-              ],
+            MenuCard(
+              imageUrl: 'assets/image/menu.png',
+              nameresto: 'Mang Engking',
+              title: 'Menu 4',
+              category: 'beverage',
+              price: 'Rp8.000',
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }
