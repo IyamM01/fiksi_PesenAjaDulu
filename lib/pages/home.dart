@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fiksi/pages/history.dart';
 import 'package:flutter_fiksi/pages/menu.dart';
 import 'package:flutter_fiksi/widgets/widgets.dart';
 import 'package:flutter_fiksi/pages/profile.dart';
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> pages = const [
     HomeWidget(),
     Menu(),
-    Placeholder(),
+    HistoryPage(),
     ProfilePage(),
   ];
 
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => setState(() => pageIndex = 0),
                       icon: Icon(
                         Icons.home,
+                        size: 33,
                         color:
                             pageIndex == 0
                                 ? const Color(0xFF4E2A00)
@@ -90,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => setState(() => pageIndex = 1),
                       icon: Icon(
                         Icons.menu_book,
+                        size: 33,
                         color:
                             pageIndex == 1
                                 ? const Color(0xFF4E2A00)
@@ -109,7 +112,8 @@ class _HomePageState extends State<HomePage> {
                     IconButton(
                       onPressed: () => setState(() => pageIndex = 2),
                       icon: Icon(
-                        Icons.shopping_cart,
+                        Icons.history_edu_outlined,
+                        size: 33,
                         color:
                             pageIndex == 2
                                 ? const Color(0xFF4E2A00)
@@ -120,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => setState(() => pageIndex = 3),
                       icon: Icon(
                         Icons.person,
+                        size: 33,
                         color:
                             pageIndex == 3
                                 ? const Color(0xFF4E2A00)
