@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class HistoryCard extends StatelessWidget {
   final String restaurantName;
   final String imageUrl;
+  final String order_id;
   final String date;
   final String price;
   final String tableNumber;
-  final bool status;
+  final String status;
   final VoidCallback onTap;
 
   const HistoryCard({
     super.key,
     required this.restaurantName,
     required this.imageUrl,
+    required this.order_id,
     required this.date,
     required this.price,
     required this.tableNumber,
@@ -22,6 +24,7 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDone = status.toLowerCase() == "completed";
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: const EdgeInsets.all(12),
@@ -32,7 +35,6 @@ class HistoryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -41,6 +43,13 @@ class HistoryCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                order_id,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
@@ -88,13 +97,15 @@ class HistoryCard extends StatelessWidget {
             child: ElevatedButton(
               onPressed: onTap,
               style: ElevatedButton.styleFrom(
-                backgroundColor: status ? Colors.orange[300] : Colors.orange,
+                backgroundColor: isDone ? Colors.orange[300] : Colors.orange,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
               child: Text(
-                status ? "Selesai" : "Segera Datang ya!", //Cek sudah selesai apa belom
+                isDone
+                    ? "Selesai"
+                    : "Segera Datang ya!", //Cek sudah selesai apa belom
                 style: const TextStyle(color: Colors.white),
               ),
             ),

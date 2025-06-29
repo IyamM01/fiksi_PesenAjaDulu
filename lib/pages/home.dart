@@ -3,6 +3,7 @@ import 'package:flutter_fiksi/pages/history.dart';
 import 'package:flutter_fiksi/pages/menu.dart';
 import 'package:flutter_fiksi/widgets/widgets.dart';
 import 'package:flutter_fiksi/pages/profile.dart';
+import 'package:flutter_fiksi/pages/resto.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,17 +53,18 @@ class _HomePageState extends State<HomePage> {
     Menu(),
     HistoryPage(),
     ProfilePage(),
+    Resto(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => setState(() => pageIndex = 4),
         backgroundColor: const Color(0xFFFE7F00),
         elevation: 6,
         shape: const CircleBorder(),
-        child: const Icon(Icons.restaurant, color: Colors.white),
+        child: Image.asset('assets/icon/meja.png', width: 32, height: 32),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -112,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                     IconButton(
                       onPressed: () => setState(() => pageIndex = 2),
                       icon: Icon(
-                        Icons.history_edu_outlined,
+                        Icons.history,
                         size: 33,
                         color:
                             pageIndex == 2
