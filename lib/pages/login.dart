@@ -8,47 +8,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool isLoading = false;
   bool showPassword = false;
-
-  void showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  void login() {
-    final email = emailController.text.trim();
-    final password = passwordController.text;
-
-    if (email.isEmpty || password.isEmpty) {
-      showError('Email dan password tidak boleh kosong.');
-      return;
-    }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    // Simulasi proses login
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
-      });
-
-      // Jika login berhasil, arahkan ke halaman berikutnya
-      Navigator.pushReplacementNamed(context, '/home');
-    });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextField(
-                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: Padding(
@@ -114,7 +74,6 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: TextField(
-                controller: passwordController,
                 obscureText: !showPassword,
                 decoration: InputDecoration(
                   prefixIcon: Padding(
@@ -147,13 +106,24 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: isLoading ? null : login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFE7F00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
+                onPressed: isLoading
+                    ? null
+                    : () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        Future.delayed(const Duration(seconds: 2), () {
+                          setState(() {
+                            isLoading = false;
+                          });
+                        });
+                      },
                 child: isLoading
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),

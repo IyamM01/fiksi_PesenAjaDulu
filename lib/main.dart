@@ -8,6 +8,8 @@ import 'package:flutter_fiksi/pages/order_menu.dart';
 import 'package:flutter_fiksi/pages/resto.dart';
 import 'package:flutter_fiksi/pages/payment.dart';
 import 'package:flutter_fiksi/pages/payment_done.dart';
+import 'package:flutter_fiksi/pages/welcome.dart';
+import 'package:flutter_fiksi/pages/table_order.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const CheckoutPage(),
+        '/': (context) => const HomePage(),
         '/login':
             (context) => const LoginPage(), // pastikan LoginPage sudah diimport
         '/signup':
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/home':
             (context) => const HomePage(), // pastikan MyWidget sudah diimport
         '/order_menu': (context) => const OrderMenuPage(),
+        '/table_order': (context) => const TableOrder(),
         '/payment': (context) => const PaymentPage(),
         '/payment_done': (context) => const PaymentDone(),
       },

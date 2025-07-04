@@ -198,7 +198,7 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
               height: 48,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/table');
+                  Navigator.pushNamed(context, '/table_order');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,

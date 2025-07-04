@@ -37,7 +37,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Image.asset(
-                'assets/image/qris.png', // Ganti dengan QRIS kamu
+                'assets/image/qris.png',
                 width: 200,
                 height: 200,
               ),
