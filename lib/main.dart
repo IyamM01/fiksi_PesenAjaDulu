@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fiksi/pages/home.dart';
-import 'package:flutter_fiksi/pages/login.dart';
-import 'package:flutter_fiksi/pages/payment_done.dart';
-import 'package:flutter_fiksi/pages/signup.dart';
-import 'package:flutter_fiksi/pages/checkout.dart';
-import 'package:flutter_fiksi/pages/order_menu.dart';
-import 'package:flutter_fiksi/pages/resto.dart';
-import 'package:flutter_fiksi/pages/payment.dart';
-import 'package:flutter_fiksi/pages/payment_done.dart';
-import 'package:flutter_fiksi/pages/welcome.dart';
-import 'package:flutter_fiksi/pages/table_order.dart';
+import 'package:flutter_fiksi/core/config/router.dart';
+import 'package:flutter_fiksi/core/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,28 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'PesenAjaDulu',
-      theme: ThemeData(
-        fontFamily: 'Poppins', // atau 'Popins' jika kamu tetap pakai itu
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/login':
-            (context) => const LoginPage(), // pastikan LoginPage sudah diimport
-        '/signup':
-            (context) => const SignupPage(), // pastikan SignUp sudah diimport
-        '/signin':
-            (context) => const LoginPage(), // pastikan SignIn sudah diimport
-        '/home':
-            (context) => const HomePage(), // pastikan MyWidget sudah diimport
-        '/order_menu': (context) => const OrderMenuPage(),
-        '/table_order': (context) => const TableOrder(),
-        '/payment': (context) => const PaymentPage(),
-        '/payment_done': (context) => const PaymentDone(),
-      },
+      theme: AppTheme.lightTheme,
+      routerConfig: router,
     );
   }
 }
