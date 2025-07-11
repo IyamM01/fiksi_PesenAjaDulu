@@ -31,12 +31,14 @@ class AppConstants {
   static const String fontFamily = 'Poppins';
 
   // API Endpoints (to be implemented)
-  static const String baseUrl = 'https://api.pesenajadul.com';
+  static const String baseUrl = 'http://127.0.0.1:8000/api';
   static const String authEndpoint = '/auth';
-  static const String restaurantEndpoint = '/restaurants';
+  static const String loginEndpoint = '/login';
+  static const String signupEndpoint = '/register';
+  static const String restaurantEndpoint = '/restaurant';
   static const String menuEndpoint = '/menu';
-  static const String orderEndpoint = '/orders';
-  static const String tableEndpoint = '/tables';
+  static const String orderEndpoint = '/order';
+  static const String tableEndpoint = '/table';
 
   // Cache Keys
   static const String userCacheKey = 'user_cache';
@@ -46,4 +48,24 @@ class AppConstants {
   static const int minPasswordLength = 6;
   static const int maxNameLength = 50;
   static const int maxPhoneLength = 15;
+}
+
+class ApiConstants {
+  static const String baseUrl = 'http://192.168.75.235:8000/api';
+  static const String authEndpoint = '/auth';
+  static const String loginEndpoint = '/login';
+  static const String signupEndpoint = '/register';
+  static const String restaurantEndpoint = '/restaurant';
+  static const String menuEndpoint = '/menu';
+  static const String orderEndpoint = '/order';
+  static const String tableEndpoint = '/table';
+}
+
+class StorageKeys {
+  static const String accessToken = 'access_token';
+  static const String refreshToken = 'refresh_token';
+  static const String userProfile = 'user_profile';
+  static const String isFirstLaunch = 'is_first_launch';
+  static const String selectedLanguage = 'selected_language';
+  static const String themeMode = 'theme_mode';
 }

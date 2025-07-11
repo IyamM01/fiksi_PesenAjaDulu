@@ -44,3 +44,15 @@ class AuthorizationException extends AppException {
 class ServerException extends AppException {
   const ServerException({required super.message, super.code, super.details});
 }
+
+class UnauthorizedException extends AppException {
+  const UnauthorizedException({
+    required super.message,
+    super.code,
+    super.details,
+  });
+}
+
+class NotFoundException extends AppException {
+  const NotFoundException({required super.message, super.code, super.details});
+}

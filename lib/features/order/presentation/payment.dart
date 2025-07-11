@@ -65,7 +65,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 child: const Text("Saya Sudah Bayar"),
               ),
             ),
-          const SizedBox(height: 36,)
+            const SizedBox(height: 36),
           ],
         ),
       ),

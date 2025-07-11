@@ -10,11 +10,13 @@ import 'package:flutter_fiksi/features/order/presentation/payment_done.dart';
 import 'package:flutter_fiksi/features/restaurant/presentation/resto.dart';
 import 'package:flutter_fiksi/features/table/presentation/table_order.dart';
 import 'package:flutter_fiksi/core/presentation/pages/welcome_page.dart';
+import 'package:flutter_fiksi/core/presentation/pages/app_startup.dart';
 
 final router = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(path: '/', builder: (context, state) => const WelcomePage()),
+    GoRoute(path: '/', builder: (context, state) => const AppStartupScreen()),
+    GoRoute(path: '/welcome', builder: (context, state) => const WelcomePage()),
     GoRoute(path: '/home', builder: (context, state) => const HomePage()),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(path: '/signup', builder: (context, state) => const SignupPage()),

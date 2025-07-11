@@ -22,4 +22,7 @@ abstract class AuthRepository {
     String? phoneNumber,
     String? profileImage,
   });
+
+  Future<void> saveToken(String token);
+  Future<String?> getToken();
 }

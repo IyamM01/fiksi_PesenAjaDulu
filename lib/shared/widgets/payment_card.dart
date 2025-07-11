@@ -30,12 +30,12 @@ class PaymentCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-                Image.asset(
+              Image.asset(
                 'assets/image/qris.png',
                 width: 32,
                 height: 32,
                 fit: BoxFit.contain,
-                ),
+              ),
               const SizedBox(width: 8),
               Text(method),
             ],

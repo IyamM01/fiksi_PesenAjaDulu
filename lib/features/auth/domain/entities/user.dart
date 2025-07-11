@@ -3,7 +3,6 @@ class User {
   final String email;
   final String name;
   final String? phoneNumber;
-  final String? profileImage;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -12,7 +11,6 @@ class User {
     required this.email,
     required this.name,
     this.phoneNumber,
-    this.profileImage,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -31,10 +29,42 @@ class User {
       email: email ?? this.email,
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      profileImage: profileImage ?? this.profileImage,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
+  }
+
+  /// Factory constructor to create User from JSON
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as String,
+      email: json['email'] as String,
+      name: json['name'] as String,
+      phoneNumber:
+          json['phone_number'] as String? ?? json['phoneNumber'] as String?,
+      createdAt:
+          DateTime.tryParse(
+            json['created_at'] as String? ?? json['createdAt'] as String? ?? '',
+          ) ??
+          DateTime.now(),
+      updatedAt:
+          DateTime.tryParse(
+            json['updated_at'] as String? ?? json['updatedAt'] as String? ?? '',
+          ) ??
+          DateTime.now(),
+    );
+  }
+
+  /// Convert User to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'name': name,
+      'phone_number': phoneNumber,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
   }
 
   @override
