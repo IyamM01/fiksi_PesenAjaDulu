@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../constants/app_constants.dart';
+import '../config/environment.dart';
 import '../exceptions/app_exceptions.dart';
 
 class DioClient {
@@ -173,34 +175,40 @@ class _ErrorInterceptor extends Interceptor {
 class _LogInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print('🚀 REQUEST[${options.method}] => PATH: ${options.path}');
-    print('Headers: ${options.headers}');
-    if (options.data != null) {
-      print('Data: ${options.data}');
+    if (Environment.enableLogging) {
+      debugPrint('🚀 REQUEST[${options.method}] => PATH: ${options.path}');
+      debugPrint('Headers: ${options.headers}');
+      if (options.data != null) {
+        debugPrint('Data: ${options.data}');
+      }
+      debugPrint('QueryParameters: ${options.queryParameters}');
     }
-    print('QueryParameters: ${options.queryParameters}');
 
     handler.next(options);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print(
-      '✅ RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
-    );
-    print('Data: ${response.data}');
+    if (Environment.enableLogging) {
+      debugPrint(
+        '✅ RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
+      );
+      debugPrint('Data: ${response.data}');
+    }
 
     handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print(
-      '❌ ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
-    );
-    print('Message: ${err.message}');
-    if (err.response?.data != null) {
-      print('Error Data: ${err.response?.data}');
+    if (Environment.enableLogging) {
+      debugPrint(
+        '❌ ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
+      );
+      debugPrint('Message: ${err.message}');
+      if (err.response?.data != null) {
+        debugPrint('Error Data: ${err.response?.data}');
+      }
     }
 
     handler.next(err);

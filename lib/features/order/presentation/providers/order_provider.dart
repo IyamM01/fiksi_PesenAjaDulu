@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -388,7 +389,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
       orderHistoryNotifier.addOrder(orderHistoryItem);
     } catch (e) {
       // If adding to history fails, just log it but don't block the payment completion
-      print('Failed to add order to history: $e');
+      debugPrint('Failed to add order to history: $e');
     }
 
     // Clear the cart after successful payment

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/entities/user.dart';
 import '../datasources/auth_remote_datasource.dart';
@@ -113,7 +114,7 @@ class AuthRepositoryImpl implements AuthRepository {
         await _remoteDataSource.logout();
       } catch (e) {
         // Server logout failed, but continue with local cleanup
-        print('Server logout failed: $e');
+        debugPrint('Server logout failed: $e');
       }
 
       // 2. Always clean up local data

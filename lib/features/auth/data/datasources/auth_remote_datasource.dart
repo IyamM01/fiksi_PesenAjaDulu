@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_fiksi/core/di/dependency_injection.dart';
 import 'package:flutter_fiksi/core/constants/app_constants.dart';
 import 'package:flutter_fiksi/core/exceptions/app_exceptions.dart';
@@ -47,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       throw NetworkException(message: 'Login failed: ${e.message}');
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       throw NetworkException(
         message: 'An unexpected error occurred during login',
       );
