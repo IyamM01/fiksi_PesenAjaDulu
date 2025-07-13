@@ -33,7 +33,8 @@ class AppConstants {
   static const String fontFamily = 'Poppins';
 
   // API Endpoints (to be implemented)
-  static const String baseUrl = 'https://pesanajadulu.my.id/api'; // Updated for production
+  static const String baseUrl =
+      'https://pesanajadulu.my.id/api'; // Updated for production
   static const String authEndpoint = '/auth';
   static const String loginEndpoint = '/login';
   static const String signupEndpoint = '/register';

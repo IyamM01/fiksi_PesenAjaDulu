@@ -169,9 +169,8 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
   /// Remove all items of a specific menu item from cart
   void removeMenuItemCompletely(String menuItemId) {
-    final updatedItems = state.items.where(
-      (item) => item.menuItemId != menuItemId,
-    ).toList();
+    final updatedItems =
+        state.items.where((item) => item.menuItemId != menuItemId).toList();
     state = state.copyWith(items: updatedItems);
   }
 

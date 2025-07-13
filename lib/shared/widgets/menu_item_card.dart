@@ -118,26 +118,30 @@ class MenuItemCard extends ConsumerWidget {
                 IconButton(
                   icon: Icon(
                     Icons.remove,
-                    color: currentQuantity > 0 
-                        ? const Color(0xFFFE7F00) 
-                        : Colors.grey,
+                    color:
+                        currentQuantity > 0
+                            ? const Color(0xFFFE7F00)
+                            : Colors.grey,
                     size: 20,
                   ),
-                  onPressed: currentQuantity > 0
-                      ? () {
-                          ref
-                              .read(orderProvider.notifier)
-                              .decreaseQuantity(menuItem.id?.toString() ?? '');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Removed ${menuItem.name} from cart!',
+                  onPressed:
+                      currentQuantity > 0
+                          ? () {
+                            ref
+                                .read(orderProvider.notifier)
+                                .decreaseQuantity(
+                                  menuItem.id?.toString() ?? '',
+                                );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Removed ${menuItem.name} from cart!',
+                                ),
+                                duration: const Duration(seconds: 1),
                               ),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
-                        }
-                      : null,
+                            );
+                          }
+                          : null,
                   style: IconButton.styleFrom(
                     padding: const EdgeInsets.all(4),
                     minimumSize: const Size(32, 32),
@@ -150,7 +154,7 @@ class MenuItemCard extends ConsumerWidget {
                     currentQuantity.toString(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 16, 
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF754414),
                     ),

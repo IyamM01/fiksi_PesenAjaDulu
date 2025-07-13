@@ -292,13 +292,15 @@ class _MenuState extends ConsumerState<Menu> {
             itemBuilder: (context, index) {
               final menuItem = menuItems[index];
               return GestureDetector(
-                onTap: () => MenuDescriptionPopup.show(
-                  context: context,
-                  title: menuItem.name ?? 'Unknown Item',
-                  nameresto: 'Restaurant',
-                  description: menuItem.description ?? 'No description available.',
-                  imageUrl: menuItem.image,
-                ),
+                onTap:
+                    () => MenuDescriptionPopup.show(
+                      context: context,
+                      title: menuItem.name ?? 'Unknown Item',
+                      nameresto: 'Restaurant',
+                      description:
+                          menuItem.description ?? 'No description available.',
+                      imageUrl: menuItem.image,
+                    ),
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -316,9 +318,10 @@ class _MenuState extends ConsumerState<Menu> {
                     imageUrl: menuItem.image ?? 'assets/image/menu.png',
                     title: menuItem.name ?? 'Unknown Item',
                     category: menuItem.category ?? 'Other',
-                    price: menuItem.price != null
-                        ? 'Rp${menuItem.price}'
-                        : 'Price not available',
+                    price:
+                        menuItem.price != null
+                            ? 'Rp${menuItem.price}'
+                            : 'Price not available',
                     menuItem: menuItem,
                   ),
                 ),
