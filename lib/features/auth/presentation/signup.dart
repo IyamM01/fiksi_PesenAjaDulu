@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'providers/auth_provider.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   bool isPasswordHidden = true;
-  bool isLoading = false;
 
   @override
   void dispose() {
@@ -25,20 +26,89 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
-  void handleSignup() {
-    setState(() => isLoading = true);
-    Future.delayed(const Duration(seconds: 2), () {
+  void handleSignup() async {
+    // Basic validation
+    if (usernameController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter a username')));
+      return;
+    }
+
+    if (emailController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter an email')));
+      return;
+    }
+
+    if (passwordController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter a password')));
+      return;
+    }
+
+    // Email validation
+    if (!RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    ).hasMatch(emailController.text.trim())) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email')),
+      );
+      return;
+    }
+
+    // Password length validation
+    if (passwordController.text.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must be at least 6 characters')),
+      );
+      return;
+    }
+
+    try {
+      await ref
+          .read(authProvider.notifier)
+          .signup(
+            name: usernameController.text.trim(),
+            email: emailController.text.trim(),
+            password: passwordController.text,
+            phoneNumber:
+                phoneController.text.trim().isNotEmpty
+                    ? phoneController.text.trim()
+                    : null,
+          );
+
+      // If signup is successful, the auth provider will handle navigation
+      // through the router's redirect logic
       if (mounted) {
-        setState(() => isLoading = false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Sign up successful!')));
+        Navigator.pushReplacementNamed(context, '/home');
       }
-    });
+    } catch (e) {
+      // Error will be handled by the auth provider
+      // and displayed through the error state
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
+    // Show error if any
+    ref.listen<AuthState>(authProvider, (previous, next) {
+      if (next.errorMessage != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(next.errorMessage!),
+            backgroundColor: Colors.red,
+          ),
+        );
+        // Clear error after showing
+        ref.read(authProvider.notifier).clearError();
+      }
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -205,14 +275,12 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
-
-            // Sign Up Button
+            const SizedBox(height: 40), // Sign Up Button
             SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: isLoading ? null : handleSignup,
+                onPressed: authState.isLoading ? null : handleSignup,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFF8700),
                   shape: RoundedRectangleBorder(
@@ -220,7 +288,7 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 child:
-                    isLoading
+                    authState.isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
                           'Sign Up',

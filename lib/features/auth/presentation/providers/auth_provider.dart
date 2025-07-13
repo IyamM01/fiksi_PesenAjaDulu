@@ -193,6 +193,54 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
+  /// Signup method
+  Future<void> signup({
+    required String name,
+    required String email,
+    required String password,
+    String? phoneNumber,
+  }) async {
+    try {
+      state = state.copyWith(isLoading: true, errorMessage: null);
+
+      final user = await _authRepository.signUp(
+        name: name,
+        email: email,
+        password: password,
+        phoneNumber: phoneNumber,
+      );
+
+      state = state.copyWith(user: user, isLoggedIn: true, isLoading: false);
+    } on ValidationException catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.message);
+    } on NetworkException {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'Network error. Please check your connection.',
+      );
+    } on ServerException catch (e) {
+      // Check if it's a duplicate email error
+      if (e.message.toLowerCase().contains('email') ||
+          e.message.toLowerCase().contains('exists') ||
+          e.message.toLowerCase().contains('duplicate')) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'An account with this email already exists',
+        );
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Server error. Please try again later.',
+        );
+      }
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'An unexpected error occurred during signup',
+      );
+    }
+  }
+
   /// Clear error message
   void clearError() {
     state = state.copyWith(errorMessage: null);
