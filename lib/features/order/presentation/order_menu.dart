@@ -1,97 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_fiksi/shared/widgets/widgets.dart';
+import 'package:flutter_fiksi/features/menu/presentation/providers/menu_provider.dart';
+import 'package:flutter_fiksi/features/order/presentation/providers/order_provider.dart';
 
-class OrderMenuPage extends StatefulWidget {
-  const OrderMenuPage({super.key});
+class OrderMenuPage extends ConsumerStatefulWidget {
+  final String? restaurantId;
+  final String? restaurantName;
+
+  const OrderMenuPage({super.key, this.restaurantId, this.restaurantName});
 
   @override
-  State<OrderMenuPage> createState() => _OrderMenuPageState();
+  ConsumerState<OrderMenuPage> createState() => _OrderMenuPageState();
 }
 
-class _OrderMenuPageState extends State<OrderMenuPage> {
+class _OrderMenuPageState extends ConsumerState<OrderMenuPage> {
   String selectedCategory = 'All';
-  final List<Map<String, dynamic>> menu = [
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Nasi Goreng',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'price': 'Rp25.000',
-      'quantity': 1,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Ayam Bakar',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp30.000',
-      'quantity': 5,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Es Teh',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp8.000',
-      'quantity': 3,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Es Jeruk',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp10.000',
-      'quantity': 9,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Pudding',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Dessert',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp15.000',
-      'quantity': 1,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Kentang Goreng',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Snacks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp12.000',
-      'quantity': 1,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Sate Ayam',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp28.000',
-      'quantity': 1,
-    },
-    {
-      'image': 'assets/image/menu.png',
-      'title': 'Jus Alpukat',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp18.000',
-      'quantity': 1,
-    },
-  ];
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Load menu items when page initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(menuProvider.notifier).loadMenuItems();
+
+      // Set restaurant context if provided
+      if (widget.restaurantId != null && widget.restaurantName != null) {
+        ref
+            .read(orderProvider.notifier)
+            .setRestaurant(widget.restaurantId!, widget.restaurantName!);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   void onCategorySelected(String category) {
     setState(() {
@@ -99,20 +47,33 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
     });
   }
 
+  void _onSearch(String query) {
+    if (query.isEmpty) {
+      ref.read(menuProvider.notifier).loadMenuItems();
+    } else {
+      ref.read(menuProvider.notifier).searchMenuItems(query);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // filter category
-    final filterMenu =
+    final menuItems = ref.watch(menuItemsProvider);
+    final isLoading = ref.watch(menuLoadingProvider);
+    final errorMessage = ref.watch(menuErrorProvider);
+    final orderTotalItems = ref.watch(orderTotalItemsProvider);
+
+    // Filter by category
+    final filteredMenuItems =
         selectedCategory == 'All'
-            ? menu
-            : menu
-                .where((item) => item['category'] == selectedCategory)
+            ? menuItems
+            : menuItems
+                .where((item) => item.category == selectedCategory)
                 .toList();
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, color: Color(0xFFFE7F00)),
+          icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFFFE7F00)),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.white,
@@ -122,6 +83,7 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Column(
           children: [
+            // Search bar
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFFCECDC),
@@ -132,14 +94,16 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _searchController,
+                  onChanged: _onSearch,
+                  decoration: const InputDecoration(
                     suffixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(Icons.search, color: const Color(0xFF504F5E)),
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(Icons.search, color: Color(0xFF504F5E)),
                     ),
-                    hintText: 'Search...',
-                    fillColor: const Color(0xFF504F5E),
-                    contentPadding: const EdgeInsets.symmetric(
+                    hintText: 'Search menu...',
+                    fillColor: Color(0xFF504F5E),
+                    contentPadding: EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,
                     ),
@@ -150,7 +114,7 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
             ),
             const SizedBox(height: 24),
 
-            // navmenu category
+            // Category navigation
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0.0),
               child: Column(
@@ -165,57 +129,141 @@ class _OrderMenuPageState extends State<OrderMenuPage> {
 
             const SizedBox(height: 24),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: filterMenu.length,
-                itemBuilder: (context, index) {
-                  final item = filterMenu[index];
-                  return GestureDetector(
-                    onTap:
-                        () => MenuDescriptionPopup.show(
-                          context: context,
-                          title: item['title']!,
-                          nameresto: item['nameresto']!,
-                          description: item['description']!,
-                          imageUrl: item['image'],
-                        ),
-                    child: MenuItemCard(
-                      imageUrl: item['image'],
-                      category: item['category'],
-                      title: item['title'],
-                      price: item['price'],
-                      quantity: item['quantity'],
-                    ),
-                  );
-                },
+            // Loading indicator
+            if (isLoading && menuItems.isEmpty)
+              const Expanded(child: Center(child: CircularProgressIndicator()))
+            // Error message
+            else if (errorMessage != null)
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        size: 48,
+                        color: Colors.red.shade600,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        errorMessage,
+                        style: TextStyle(color: Colors.red.shade600),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          ref.read(menuProvider.notifier).loadMenuItems();
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            // Empty state
+            else if (filteredMenuItems.isEmpty)
+              const Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.restaurant_menu, size: 48, color: Colors.grey),
+                      SizedBox(height: 16),
+                      Text(
+                        'No menu items found',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            // Menu items list
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredMenuItems.length,
+                  itemBuilder: (context, index) {
+                    final menuItem = filteredMenuItems[index];
+                    return GestureDetector(
+                      onTap:
+                          () => MenuDescriptionPopup.show(
+                            context: context,
+                            title: menuItem.name ?? 'Unknown Item',
+                            nameresto: widget.restaurantName ?? 'Restaurant',
+                            description:
+                                menuItem.description ??
+                                'No description available',
+                            imageUrl: menuItem.image,
+                          ),
+                      child: MenuItemCard(
+                        imageUrl: menuItem.image ?? '',
+                        category: menuItem.category ?? '',
+                        title: menuItem.name ?? '',
+                        price: menuItem.price ?? '',
+                        menuItem: menuItem,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
 
-            const SizedBox(height: 24), // Tambahkan jarak sebelum tombol
+            const SizedBox(height: 24),
 
+            // Next button with cart indicator
             SizedBox(
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/table_order');
-                },
+                onPressed:
+                    orderTotalItems > 0
+                        ? () {
+                          context.push('/table_order');
+                        }
+                        : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor:
+                      orderTotalItems > 0 ? Colors.orange : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
-                  'Next',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Next',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    if (orderTotalItems > 0) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          '$orderTotalItems',
+                          style: const TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 55), // Tambahkan jarak bawah
+            const SizedBox(height: 55),
           ],
         ),
       ),

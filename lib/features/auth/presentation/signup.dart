@@ -28,10 +28,12 @@ class _SignupPageState extends State<SignupPage> {
   void handleSignup() {
     setState(() => isLoading = true);
     Future.delayed(const Duration(seconds: 2), () {
-      setState(() => isLoading = false);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Sign up successful!')));
+      if (mounted) {
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Sign up successful!')));
+      }
     });
   }
 

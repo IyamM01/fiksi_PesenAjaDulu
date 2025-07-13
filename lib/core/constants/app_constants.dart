@@ -1,3 +1,5 @@
+import '../config/environment.dart';
+
 class AppConstants {
   // App Information
   static const String appName = 'PesenAjaDulu';
@@ -31,7 +33,7 @@ class AppConstants {
   static const String fontFamily = 'Poppins';
 
   // API Endpoints (to be implemented)
-  static const String baseUrl = 'http://127.0.0.1:8000/api';
+  static const String baseUrl = 'https://pesanajadulu.my.id/api'; // Updated for production
   static const String authEndpoint = '/auth';
   static const String loginEndpoint = '/login';
   static const String signupEndpoint = '/register';
@@ -51,13 +53,19 @@ class AppConstants {
 }
 
 class ApiConstants {
-  static const String baseUrl = 'http://192.168.75.235:8000/api';
+  static String get baseUrl => Environment.baseUrl;
   static const String authEndpoint = '/auth';
   static const String loginEndpoint = '/login';
   static const String signupEndpoint = '/register';
   static const String restaurantEndpoint = '/restaurant';
   static const String menuEndpoint = '/menu';
   static const String orderEndpoint = '/order';
+  static const String orderStoreEndpoint = '/order/store';
+  static const String orderCancelEndpoint = '/order/cancel';
+  static const String paymentEndpoint = '/payment';
+  static const String paymentHandleEndpoint = '/payment/handle';
+  static const String paymentStatusEndpoint = '/payment/status';
+  static const String paymentNotificationEndpoint = '/payment/notification';
   static const String tableEndpoint = '/table';
 }
 

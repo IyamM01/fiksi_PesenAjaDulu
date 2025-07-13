@@ -1,182 +1,332 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_fiksi/shared/widgets/widgets.dart';
+import 'package:flutter_fiksi/features/menu/presentation/providers/menu_provider.dart';
 
-class Menu extends StatefulWidget {
+class Menu extends ConsumerStatefulWidget {
   const Menu({super.key});
 
   @override
-  State<Menu> createState() => _MenuState();
+  ConsumerState<Menu> createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> {
-  String selectedCategory = 'All';
+class _MenuState extends ConsumerState<Menu> {
+  final TextEditingController _searchController = TextEditingController();
 
-  // Data menu contoh
-  final List<Map<String, String>> menuItems = [
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Nasi Goreng',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'price': 'Rp25.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Ayam Bakar',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp30.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Es Teh',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp8.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Es Jeruk',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp10.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Pudding',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Dessert',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp15.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Kentang Goreng',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Snacks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp12.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Sate Ayam',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Main Course',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp28.000',
-    },
-    {
-      'imageUrl': 'assets/image/menu.png',
-      'title': 'Jus Alpukat',
-      'description':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      'category': 'Drinks',
-      'nameresto': 'Mang Engking',
-      'price': 'Rp18.000',
-    },
-  ];
-
-  void onCategorySelected(String category) {
-    setState(() {
-      selectedCategory = category;
+  @override
+  void initState() {
+    super.initState();
+    // Load menu items when the page initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(menuProvider.notifier).loadMenuItems();
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    // filter category
-    final filteredMenu =
-        selectedCategory == 'All'
-            ? menuItems
-            : menuItems
-                .where((item) => item['category'] == selectedCategory)
-                .toList();
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
-    return Container(
-      child: Column(
-        children: [
-          // search bar
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFFCECDC),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            width: double.infinity,
-            height: 47,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: TextField(
-                decoration: InputDecoration(
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Icon(Icons.search, color: const Color(0xFF504F5E)),
+  void _onSearch(String query) {
+    if (query.isEmpty) {
+      ref.read(menuProvider.notifier).loadMenuItems();
+    } else {
+      ref.read(menuProvider.notifier).searchMenuItems(query);
+    }
+  }
+
+  void _onCategorySelected(String category) {
+    if (category == 'All') {
+      ref.read(menuProvider.notifier).loadMenuItems();
+    } else {
+      ref.read(menuProvider.notifier).loadMenuItemsByCategory(category);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final menuItems = ref.watch(menuItemsProvider);
+    final isLoading = ref.watch(menuLoadingProvider);
+    final errorMessage = ref.watch(menuErrorProvider);
+    final availableCategories = ref.watch(availableCategoriesProvider);
+    final selectedCategory = ref.watch(selectedCategoryProvider);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFFCECDC),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF754414)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Menu',
+          style: TextStyle(
+            color: Color(0xFF754414),
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+          child: Column(
+            children: [
+              // Search bar
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: _onSearch,
+                  style: const TextStyle(
+                    color: Color(0xFF754414),
+                    fontSize: 16,
                   ),
-                  hintText: 'Search...',
-                  fillColor: const Color(0xFF504F5E),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                  decoration: InputDecoration(
+                    hintText: 'Search menu items...',
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF754414),
+                      fontSize: 16,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: Color(0xFF754414),
+                      size: 22,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 18,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFFE7F00),
+                        width: 2,
+                      ),
+                    ),
                   ),
-                  border: InputBorder.none,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-          // navmenu category
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-            child: Column(
-              children: [
-                NavCategory(
-                  selectedCategory: selectedCategory,
-                  onCategorySelected: onCategorySelected,
-                ),
-              ],
-            ),
-          ),
+              // Category navigation
+              NavCategory(
+                selectedCategory: selectedCategory,
+                onCategorySelected: _onCategorySelected,
+                categories: availableCategories,
+              ),
+              const SizedBox(height: 24),
 
-          const SizedBox(height: 24),
-
-          // Nampilin menu
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            children:
-                filteredMenu.map((menu) {
-                  return GestureDetector(
-                    onTap:
-                        () => MenuDescriptionPopup.show(
-                          context: context,
-                          title: menu['title']!,
-                          nameresto: menu['nameresto']!,
-                          description: menu['description']!,
-                          imageUrl: menu['imageUrl'],
-                        ),
-                    child: MenuCard(
-                      imageUrl: menu['imageUrl']!,
-                      title: menu['title']!,
-                      category: menu['category']!,
-                      nameresto: menu['nameresto']!,
-                      price: menu['price']!,
-                    ),
-                  );
-                }).toList(),
+              // Content area
+              Expanded(
+                child: _buildContent(menuItems, isLoading, errorMessage),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildContent(
+    List<dynamic> menuItems,
+    bool isLoading,
+    String? errorMessage,
+  ) {
+    // Loading indicator
+    if (isLoading && menuItems.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(color: Color(0xFFFE7F00), strokeWidth: 3),
+            SizedBox(height: 16),
+            Text(
+              'Loading menu items...',
+              style: TextStyle(color: Color(0xFF754414), fontSize: 16),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Error message
+    if (errorMessage != null) {
+      return Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.red.shade50,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.red.shade200),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.error_outline, color: Colors.red.shade600, size: 48),
+              const SizedBox(height: 12),
+              Text(
+                'Oops! Something went wrong',
+                style: TextStyle(
+                  color: Colors.red.shade700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                errorMessage,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.red.shade600, fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  ref.read(menuProvider.notifier).loadMenuItems();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFE7F00),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Try Again'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Empty state
+    if (menuItems.isEmpty) {
+      return Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.restaurant_menu,
+                size: 64,
+                color: Colors.grey.shade400,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No menu items found',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Try adjusting your search or category filter',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Menu items list
+    return Column(
+      children: [
+        // Header with count and loading indicator
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${menuItems.length} items found',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF754414),
+              ),
+            ),
+            if (isLoading)
+              const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Color(0xFFFE7F00),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 20),
+
+        // Menu items list
+        Expanded(
+          child: ListView.separated(
+            itemCount: menuItems.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final menuItem = menuItems[index];
+              return GestureDetector(
+                onTap: () => MenuDescriptionPopup.show(
+                  context: context,
+                  title: menuItem.name ?? 'Unknown Item',
+                  nameresto: 'Restaurant',
+                  description: menuItem.description ?? 'No description available.',
+                  imageUrl: menuItem.image,
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: MenuItemCard(
+                    imageUrl: menuItem.image ?? 'assets/image/menu.png',
+                    title: menuItem.name ?? 'Unknown Item',
+                    category: menuItem.category ?? 'Other',
+                    price: menuItem.price != null
+                        ? 'Rp${menuItem.price}'
+                        : 'Price not available',
+                    menuItem: menuItem,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
