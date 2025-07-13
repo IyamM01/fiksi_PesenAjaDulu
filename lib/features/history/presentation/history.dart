@@ -65,7 +65,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFE7F00).withOpacity(0.1),
+                      color: const Color(0xFFFE7F00).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -91,7 +91,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.orange.withOpacity(0.1),
+                      color: Colors.orange.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -117,7 +117,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
+                      color: Colors.green.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -248,7 +248,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -486,27 +486,27 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
     switch (status.toLowerCase()) {
       case 'completed':
-        backgroundColor = Colors.green.withOpacity(0.1);
+        backgroundColor = Colors.green.withValues(alpha: 0.1);
         textColor = Colors.green;
         displayText = 'Completed';
         break;
       case 'pending':
-        backgroundColor = Colors.orange.withOpacity(0.1);
+        backgroundColor = Colors.orange.withValues(alpha: 0.1);
         textColor = Colors.orange;
         displayText = 'Pending';
         break;
       case 'confirmed':
-        backgroundColor = Colors.blue.withOpacity(0.1);
+        backgroundColor = Colors.blue.withValues(alpha: 0.1);
         textColor = Colors.blue;
         displayText = 'Confirmed';
         break;
       case 'cancelled':
-        backgroundColor = Colors.red.withOpacity(0.1);
+        backgroundColor = Colors.red.withValues(alpha: 0.1);
         textColor = Colors.red;
         displayText = 'Cancelled';
         break;
       default:
-        backgroundColor = Colors.grey.withOpacity(0.1);
+        backgroundColor = Colors.grey.withValues(alpha: 0.1);
         textColor = Colors.grey;
         displayText = status;
     }
