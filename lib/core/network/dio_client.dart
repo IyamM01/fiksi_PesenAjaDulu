@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import '../constants/app_constants.dart';
-import '../config/environment.dart';
 import '../exceptions/app_exceptions.dart';
 
 class DioClient {
@@ -175,7 +174,7 @@ class _ErrorInterceptor extends Interceptor {
 class _LogInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (Environment.enableLogging) {
+    if (kDebugMode) {
       debugPrint('🚀 REQUEST[${options.method}] => PATH: ${options.path}');
       debugPrint('Headers: ${options.headers}');
       if (options.data != null) {
@@ -189,7 +188,7 @@ class _LogInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (Environment.enableLogging) {
+    if (kDebugMode) {
       debugPrint(
         '✅ RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
       );
@@ -201,7 +200,7 @@ class _LogInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (Environment.enableLogging) {
+    if (kDebugMode) {
       debugPrint(
         '❌ ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}',
       );

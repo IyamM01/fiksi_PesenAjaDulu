@@ -93,7 +93,7 @@ class _StagingConfig {
 
 /// Production environment configuration
 class _ProductionConfig {
-  static const String baseUrl = 'https://pesanajadulu.my.id/api';
+  static const String baseUrl = 'https://pesenajadulu.my.id/api';
 }
 
 /// Environment utilities

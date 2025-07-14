@@ -101,12 +101,30 @@ class HomePage extends ConsumerWidget {
                                         child: const Text('Cancel'),
                                       ),
                                       TextButton(
-                                        onPressed: () {
-                                          ref
-                                              .read(authProvider.notifier)
-                                              .logout();
-                                          Navigator.pop(context);
-                                          context.go('/welcome');
+                                        onPressed: () async {
+                                          try {
+                                            await ref
+                                                .read(authProvider.notifier)
+                                                .logout();
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                              context.go('/login');
+                                            }
+                                          } catch (e) {
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Logout failed: $e',
+                                                  ),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            }
+                                          }
                                         },
                                         child: const Text('Logout'),
                                       ),

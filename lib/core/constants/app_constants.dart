@@ -1,5 +1,3 @@
-import '../config/environment.dart';
-
 class AppConstants {
   // App Information
   static const String appName = 'PesenAjaDulu';
@@ -54,7 +52,7 @@ class AppConstants {
 }
 
 class ApiConstants {
-  static String get baseUrl => Environment.baseUrl;
+  static String get baseUrl => AppConstants.baseUrl;
   static const String authEndpoint = '/auth';
   static const String loginEndpoint = '/login';
   static const String signupEndpoint = '/register';
